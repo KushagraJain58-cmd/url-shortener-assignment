@@ -1,0 +1,32 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "Start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "geoip-lite": "^1.4.10",
+    "google-auth-library": "^9.15.1",
+    "ioredis": "^5.4.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^5.9.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "shortid": "^2.2.15",
+    "ua-parser-js": "^2.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
