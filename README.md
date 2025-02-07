@@ -68,3 +68,18 @@ Copy
 Edit
 npm start for backend and npm run dev for frontend
 The server will start running on the port specified in your .env file (default is 5000).
+
+# Challenges Faced and Solutions Implemented
+
+1. User Authentication with Google
+Challenge: Setting up Google OAuth with Passport.js was challenging due to redirect URL mismatches and authentication flow issues.
+Solution: The issue was resolved by correctly setting the Google OAuth credentials in the Google Developer Console and ensuring the correct redirect URI was used.
+2. Rate Limiting
+Challenge: Implementing rate limiting to ensure users could not spam the URL shortening feature was tricky.
+Solution: Used the express-rate-limit package to throttle requests to the /api/shorten and /api/analytics endpoints, limiting the number of requests a user can make in a specific time window (e.g., 10 requests per minute).
+3. Handling URL Redirection and Analytics
+Challenge: Collecting detailed analytics (like OS, device, geolocation) without affecting performance was a major concern.
+Solution: Used the ua-parser-js library for parsing user agent data and geoip-lite for geolocation based on IP. Analytics were stored in MongoDB, but caching was implemented using Redis to speed up access to frequently accessed URLs.
+4. Database Scalability
+Challenge: Ensuring the MongoDB database could scale as the number of users and URLs increased.
+Solution: Implemented MongoDB indexes on frequently queried fields like userId, short, and customAlias to improve query performance and scalability.
