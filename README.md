@@ -1,4 +1,11 @@
 # URL Shortener API with Analytics
+
+## Deployed URL
+
+https://url-shortener-assignment.vercel.app/
+
+### Backend deployed on Render
+
 ## Overview
 This project implements a scalable URL shortener API with advanced features such as detailed analytics, user authentication using Google Sign-In, and rate limiting. The system allows users to generate short URLs for long URLs, track user interactions (clicks, OS, device type), and analyze performance both individually and across topics.
 
