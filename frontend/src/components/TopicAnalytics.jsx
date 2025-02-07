@@ -22,10 +22,7 @@ ChartJS.register(
   Legend
 );
 
-<<<<<<< HEAD
 const BACKEND_URL = 'https://url-shortener-assignment.onrender.com';
-=======
->>>>>>> 311160dc42bbed81dc73e19e3a6dd517cae6f3ac
 
 function TopicAnalytics({ token }) {
   const { topic } = useParams();
@@ -39,11 +36,7 @@ function TopicAnalytics({ token }) {
 
   const fetchTopicAnalytics = async () => {
     try {
-<<<<<<< HEAD
       const response = await fetch(`${BACKEND_URL}/api/analytics/topic/${topic}`, {
-=======
-      const response = await fetch(`http://localhost:5000/api/analytics/topic/${topic}`, {
->>>>>>> 311160dc42bbed81dc73e19e3a6dd517cae6f3ac
         headers: {
           Authorization: `Bearer ${token}`,
         },

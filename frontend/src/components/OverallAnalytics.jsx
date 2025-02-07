@@ -23,11 +23,8 @@ ChartJS.register(
   Legend
 );
 
-<<<<<<< HEAD
 const BACKEND_URL = 'https://url-shortener-assignment.onrender.com';
 
-=======
->>>>>>> 311160dc42bbed81dc73e19e3a6dd517cae6f3ac
 function OverallAnalytics({ token }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,11 +36,7 @@ function OverallAnalytics({ token }) {
 
   const fetchOverallAnalytics = async () => {
     try {
-<<<<<<< HEAD
       const response = await fetch(`${BACKEND_URL}/api/overallAnalytics`, {
-=======
-      const response = await fetch('http://localhost:5000/api/overallAnalytics', {
->>>>>>> 311160dc42bbed81dc73e19e3a6dd517cae6f3ac
         headers: {
           Authorization: `Bearer ${token}`,
         },
