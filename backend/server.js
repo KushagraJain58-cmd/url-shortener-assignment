@@ -35,11 +35,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://localhost:27017/urlSh
 });
 
 // Auth Routes
-app.get('/auth/google',
+app.get('https://url-shortener-assignment.onrender.com/auth/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-app.get('/auth/google/callback',
+app.get('https://url-shortener-assignment.onrender.com/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
     const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET);

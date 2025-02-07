@@ -3,7 +3,7 @@ import { Link2 } from 'lucide-react';
 function Login() {
   const handleGoogleLogin = () => {
     // window.location.href = 'http://localhost:5000/auth/google';
-    window.location.href = 'http://localhost:10000/auth/google';
+    window.location.href = 'https://url-shortener-assignment.onrender.com/auth/google';
   };
 
   return (
