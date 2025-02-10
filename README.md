@@ -21,24 +21,21 @@ This project implements a scalable URL shortener API with advanced features such
   
 ### Features Implemented
 
-- User Authentication:
-
-Authentication is handled via Google Sign-In. Users can register and log in using their Google account.
+- User Authentication: Authentication is handled via Google Sign-In. Users can register and log in using their Google account.
 Short URL Creation:
 
 - Endpoint /api/shorten: Allows users to shorten long URLs with optional custom aliases and topics.
 URL shortening supports rate limiting to prevent abuse.
 
-- Redirect to Long URL:
-Redirect users to the original long URL based on a short URL alias.
+- Redirect to Long URL: Redirect users to the original long URL based on a short URL alias.
 
--URL Analytics:
+- URL Analytics:
 Endpoint /api/analytics/:alias: Provides detailed analytics for a specific URL including click count, unique users, OS usage, and device type.
 
--Topic-based Analytics:
+- Topic-based Analytics:
 Endpoint /api/topicAnalytics/:topic: Get analytics for all URLs grouped under a specific topic (e.g., acquisition, retention).
 
--Overall Analytics:
+- Overall Analytics:
 Endpoint /api/overallAnalytics: Get a comprehensive view of the user’s total clicks, unique users, and performance across all URLs created.
 
 - Rate Limiting:
