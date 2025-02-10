@@ -47,20 +47,21 @@ Implemented rate limiting middleware to prevent abuse of URL shortening and anal
 ### Instructions to Run the Project
 
 1. Clone the repository
-bash
-Copy
-Edit
+```sh
 git clone <repository-url>
 cd <repository-directory>
-
+```
 2. Install Dependencies
 Make sure you have Node.js and npm installed. If not, install them from nodejs.org.
-npm install for both frontend and backend
-
-3. Setup Environment Variables
+For both frontend and backend
+```
+npm install 
+```
+4. Setup Environment Variables
 Create a .env file in the root of the project with the following environment variables:
 
-env
+.env
+```.env
 MONGODB_URI=<your-mongodb-uri>
 JWT_SECRET=<your-jwt-secret>
 CLIENT_URL=<your-client-url>
@@ -68,12 +69,17 @@ BASE_URL=<your-base-url>
 REDIS_URL=<your-redis-url>
 GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_SECRET=<your-google-client-secret>
-
+```
 4. Run the Application
-bash
-Copy
-Edit
-npm start for backend and npm run dev for frontend
+   
+- For backend
+```
+npm start
+```
+- For frontend
+```
+npm run dev
+```
 The server will start running on the port specified in your .env file (default is 5000).
 
 # Challenges Faced and Solutions Implemented
