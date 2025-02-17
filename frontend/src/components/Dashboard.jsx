@@ -1,81 +1,59 @@
 import  { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart3 } from 'lucide-react';
+import { urlService } from "../api/urlService"
 
-const BACKEND_URL = 'https://url-shortener-assignment.onrender.com';
-
+// const BACKEND_URL = "http://localhost:10000"
+const BACKEND_URL = "https://url-shortener-assignment.onrender.com"
 
 function Dashboard({ token }) {
-  const [urls, setUrls] = useState([]);
-  const [fullUrl, setFullUrl] = useState('');
-  const [customAlias, setCustomAlias] = useState('');
-  const [topic, setTopic] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [urls, setUrls] = useState([])
+  const [fullUrl, setFullUrl] = useState("")
+  const [customAlias, setCustomAlias] = useState("")
+  const [topic, setTopic] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetchUrls();
-  }, [token]);
+    fetchUrls()
+  }, []) // Removed token from dependencies
 
   const fetchUrls = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/shorten`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) throw new Error('Failed to fetch URLs');
-      const data = await response.json();
-      setUrls(data);
-      setError(null);
+      const data = await urlService.getUrls(token)
+      setUrls(data)
+      setError(null)
     } catch (err) {
-      setError('Failed to load URLs. Please try again later.');
+      setError("Failed to load URLs. Please try again later.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!fullUrl) return;
+    e.preventDefault()
+    if (!fullUrl) return
 
     try {
-      console.log("Sending request to backend:", { longUrl: fullUrl, customAlias, topic });
-      const response = await fetch(`${BACKEND_URL}/api/shorten`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ longUrl: fullUrl, customAlias, topic }),
-      });
-    const data = await response.json();
-    console.log("Response from backend:", data);
-
-      if (!response.ok) throw new Error('Failed to create short URL');
-      
-      await fetchUrls();
-      setFullUrl('');
-      setCustomAlias('');
-      setTopic('');
-      setError(null);
+      await urlService.createShortUrl(token, fullUrl, customAlias, topic)
+      await fetchUrls()
+      setFullUrl("")
+      setCustomAlias("")
+      setTopic("")
+      setError(null)
     } catch (err) {
-      console.error("Error creating short URL:", err);
-      setError('Failed to create short URL. Please try again.');
+      setError("Failed to create short URL. Please try again.")
     }
-  };
+  }
 
-    const handleClick = async (shortUrl) => {
+  const handleClick = async (shortUrl) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/${shortUrl.short}`);
-      if (!response.ok) throw new Error('Failed to redirect');
-      
-      window.open(shortUrl.full, '_blank');
-      await fetchUrls(); // Refresh to get updated click count
+      window.open(`${BACKEND_URL}/${shortUrl}`, "_blank")
+      await fetchUrls()
     } catch (err) {
-      setError('Failed to open URL. Please try again.',err);
+      setError("Failed to open URL. Please try again.")
     }
-  };
+  }
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -84,17 +62,11 @@ function Dashboard({ token }) {
         <p className="text-gray-600">Make your URLs shorter and easier to share</p>
       </div>
 
-      {error && (
-        <div className="mb-4 p-4 text-red-700 bg-red-100 rounded-lg">
-          {error}
-        </div>
-      )}
+      {error && <div className="mb-4 p-4 text-red-700 bg-red-100 rounded-lg">{error}</div>}
 
       <form onSubmit={handleSubmit} className="mb-8 space-y-4">
         <div>
-          <label htmlFor="fullUrl" className="block text-sm font-medium text-gray-700">
-            Long URL
-          </label>
+          <label htmlFor="fullUrl">Long URL</label>
           <input
             id="fullUrl"
             required
@@ -102,114 +74,83 @@ function Dashboard({ token }) {
             value={fullUrl}
             onChange={(e) => setFullUrl(e.target.value)}
             placeholder="Enter your URL here"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         </div>
 
         <div>
-          <label htmlFor="customAlias" className="block text-sm font-medium text-gray-700">
-            Custom Alias (optional)
-          </label>
+          <label htmlFor="customAlias">Custom Alias (optional)</label>
           <input
             id="customAlias"
             type="text"
             value={customAlias}
             onChange={(e) => setCustomAlias(e.target.value)}
             placeholder="Enter custom alias"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         </div>
 
         <div>
-          <label htmlFor="topic" className="block text-sm font-medium text-gray-700">
-            Topic (optional)
-          </label>
+          <label htmlFor="topic">Topic (optional)</label>
           <input
             id="topic"
             type="text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder="Enter topic"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
-        >
-          Shrink URL
-        </button>
+        <button type="submit">Shrink URL</button>
       </form>
 
       <div className="bg-white shadow rounded-lg overflow-hidden">
         {loading ? (
           <div className="p-4 text-center text-gray-500">Loading...</div>
         ) : (
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table>
+            <th>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Full URL
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Short URL
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Topic
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Clicks
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Analytics
-                </th>
+                <th>Full URL</th>
+                <th>Short URL</th>
+                <th>Topic</th>
+                <th>Clicks</th>
+                <th>Analytics</th>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            </th>
+            <tb>
               {urls.map((url) => (
                 <tr key={url._id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 truncate max-w-xs">
-                    <a
-                      href={url.full}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-indigo-600"
-                    >
+                  <div className="truncate max-w-xs">
+                    <a href={url.full} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600">
                       {url.full}
                     </a>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  <button
-                    onClick={() => handleClick(url)}
-                    className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
-                  >
-                    {url.customAlias || url.short}
-                  </button>
-                    
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {url.topic || '-'}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {url.clicks}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => handleClick(url.customAlias || url.short)}
+                      className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
+                    >
+                      {url.customAlias || url.short}
+                    </button>
+                  </div>
+                  <div>{url.topic || "-"}</div>
+                  <div>{url.clicks}</div>
+                  <div>
                     <Link
                       to={`/analytics/${url.customAlias || url.short}`}
                       className="text-indigo-600 hover:text-indigo-900"
                     >
                       <BarChart3 className="h-5 w-5" />
                     </Link>
-                  </td>
+                  </div>
                 </tr>
               ))}
-            </tbody>
+            </tb>
           </table>
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default Dashboard;
+export default Dashboard
+
